@@ -63,7 +63,7 @@ from transformers.models.t5.modeling_flax_t5 import shift_tokens_right
 
 MODEL_CONFIG_CLASSES = list(FLAX_MODEL_FOR_MASKED_LM_MAPPING.keys())
 MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
-
+np.set_printoptions(threshold=3)
 
 @dataclass
 class ModelArguments:
@@ -1028,7 +1028,11 @@ if __name__ == "__main__":
 
         eval_metrics = []
         for i, batch_idx in enumerate(tqdm(eval_batch_idx, desc="Evaluating ...", position=2)):
-            samples = [tokenized_datasets["validation"][int(idx)] for idx in batch_idx]
+            try:
+                samples = [
+                    tokenized_datasets["validation"][int(idx)] for idx in batch_idx]
+            except:
+                break
             model_inputs = data_collator(samples)
 
             # Model forward
