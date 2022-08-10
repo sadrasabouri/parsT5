@@ -551,8 +551,10 @@ if __name__ == "__main__":
     if model_args.model_name_or_path:
         model = FlaxT5ForConditionalGeneration.from_pretrained(
             model_args.model_name_or_path, 
-            config=config, 
-            seed=training_args.seed, dtype=getattr(jnp, model_args.dtype)
+            config=config,
+            from_pt=True,
+            seed=training_args.seed,
+            dtype=getattr(jnp, model_args.dtype)
         )
     else:
         model = FlaxT5ForConditionalGeneration(config, seed=training_args.seed, dtype=getattr(jnp, model_args.dtype))
